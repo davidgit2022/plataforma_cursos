@@ -27,4 +27,8 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('/users', UserController::class);
 Route::resource('/courses', CourseController::class);
-Route::resource('/modules', ModuleController::class);
+Route::resource('/modules', ModuleController::class)->except('create','store');
+
+Route::get('/modules/create/{id}', [ModuleController::class, 'create'])->name('modules.create');
+
+Route::post('/modules/store/{id}', [ModuleController::class, 'store'])->name('modules.store');

@@ -7,6 +7,7 @@ use App\Http\Requests\CourseRequest;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\RedirectResponse;
 use App\Models\Course;
+use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -60,10 +61,12 @@ class CourseController extends Controller
      */
     public function show(Course $course):View
     {
+        $modules = Module::where('course_id', $course->id)->get();
         return view('admin.course.show',[
             'course' => $course,
             'pageName' => $this->pageName = 'DETALLES',
-            'componentName' => $this->componentName
+            'componentName' => $this->componentName,
+            'modules' => $modules
         ]);
     }
 

@@ -3,39 +3,55 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Course;
 use App\Models\Module;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 class ModuleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $pageName = '';
+    public $componentName = 'MÓDULOS';
+
+    public $pagination = 10;
+
     public function index():View
     {
-        return view('admin.course.index');
+        $modules = Module::latest()->paginate($this->pagination);
+        return view('admin.module.index',[
+            'modules' => $modules,
+            'pageName' => $this->pageName = 'LISTADO',
+            'componentName' => $this->componentName
+        ]); 
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(Module $module):View
+    public function create(Module $module, $course):View
     {
-        return view('admin.course.create');
+        return view('admin.module.create',[
+            'module' => $module,
+            'course' => $course,
+            'pageName' => $this->pageName = 'CREAR',
+            'componentName' => $this->componentName
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $course)
     {
-        //
+        $module = new Module();
+        $module->name = $request->name;
+        $module->course_id  = $course;
+        $module->save();
+
+        return redirect()->route('courses.show', compact('course'));
     }
 
-    /**
-     * Display the specified resource.
-     */
+
     public function show(Module $module)
     {
         //

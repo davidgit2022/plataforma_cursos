@@ -48,10 +48,10 @@
             </div>
             <div class="col-lg-6">
                 <div class="float-sm-start mb-2">
-                    <h2><b>MÓDULOS</b></h2>
+                    <h2><b>MÓDULOS TEMARIO</b></h2>
                 </div>
                 <div class="float-sm-end mb-2">
-                    <a href="{{ route('modules.create') }}" class="btn btn-primary btn-sm">Nuevo</a>
+                    <a href="{{ route('modules.create', $course->id) }}" class="btn btn-primary btn-sm">Nuevo</a>
                 </div>
             </div>
         </div>
@@ -78,9 +78,14 @@
             </div>
 
             <div class="col-lg-6">
-                
+                <ul class="list-group">
+                    @forelse ($modules as $module)
+                        <li class="list-group-item"><a href="#">{{$module->name}}</a></li>
+                    @empty
+                        
+                    @endforelse
+                  </ul>
             </div>
         </div>
     </div>
-
 @endsection
